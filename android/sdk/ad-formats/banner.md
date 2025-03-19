@@ -214,6 +214,31 @@ banner size는 320x50만 지원합니다.
 {% hint style="warning" %}
 * Lifecycle에 따라 CaulyAdView의 pause/resume/destroy API를 호출하지 않을 경우, 광고 수신에 불이익을 받을 수 있습니다.
 * 미디에이션 사용시 카울리배너광고 호출하면 광고 삽입한 부분의 View를 removeView 및 CaulyAdView의 destroy, null 처리 해주시길 바랍니다. 또한 배너 광고 수신 실패할 경우 광고 삽입한 부분의 View를 removeView 해주세요.
+
+```java
+// Lifecycle 처리 샘플코드
+@Override
+    public void onDestroy() {
+        if (adView != null) {
+            adView.destroy();
+            adView = null;
+        }
+    }
+
+    @Override
+    public void onPause() {
+        if (adView != null) {
+            adView.pause();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        if (adView != null) {
+            adView.resume();
+        }
+    }
+```
 {% endhint %}
 
 ## CaulyAdInfo 설정방법
