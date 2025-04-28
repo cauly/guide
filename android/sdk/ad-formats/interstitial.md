@@ -84,6 +84,28 @@ public void onClickInterstitialAd(CaulyInterstitialAd ad) {
 }
 ```
 
+{% hint style="danger" %}
+### 전면광고 요청 및 노출 Activity 주의 사항
+
+전면광고 요청 시점과 광고 노출 시점의 **Activity**가 다른 경우, <mark style="background-color:yellow;">**ad.show(Activity)**</mark> 호출 시 **현재 화면의 Activity**를 명시적으로 전달해야 합니다.
+
+
+
+광고를 요청한 Activity와 다른 Activity에서 광고를 노출하는 경우:
+
+`ad.show(this); // 현재 화면의 Activity를 전달`
+
+
+
+요청 Activity와 다른 Activity에서 광고를 노출할 경우, 올바른 Activity를 넘기지 않으면 광고가 정상적으로 표시되지 않을 수 있습니다.
+
+***
+
+※ 참고:
+
+광고 요청과 노출이 동일한 Activity 내에서 진행되는 경우에는 별도로 Activity를 전달할 필요 없이 <mark style="background-color:yellow;">**ad.show()**</mark> 를 호출하면 정상적으로 광고가 노출됩니다.
+{% endhint %}
+
 ## Close Ad Type 전면 광고
 
 ```java
@@ -266,6 +288,28 @@ override fun onClickInterstitialAd(ad: CaulyInterstitialAd) {
     Log.d("CaulyExample", "interstitial AD onClickInterstitialAd.");
 }
 ```
+
+{% hint style="danger" %}
+### 전면광고 요청 및 노출 Activity 주의 사항
+
+전면광고 요청 시점과 광고 노출 시점의 **Activity**가 다른 경우, <mark style="background-color:yellow;">**ad!!.show(Activity)**</mark> 호출 시 **현재 화면의 Activity**를 명시적으로 전달해야 합니다.
+
+
+
+광고를 요청한 Activity와 다른 Activity에서 광고를 노출하는 경우:
+
+`ad!!.show(this) // 현재 화면의 Activity를 전달`
+
+
+
+요청 Activity와 다른 Activity에서 광고를 노출할 경우, 올바른 Activity를 넘기지 않으면 광고가 정상적으로 표시되지 않을 수 있습니다.
+
+***
+
+※ 참고:
+
+광고 요청과 노출이 동일한 Activity 내에서 진행되는 경우에는 별도로 Activity를 전달할 필요 없이 <mark style="background-color:yellow;">**ad!!.show()**</mark> 를 호출하면 정상적으로 광고가 노출됩니다.
+{% endhint %}
 
 ## Close Ad Type 전면 광고
 

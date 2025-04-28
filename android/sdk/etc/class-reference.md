@@ -33,14 +33,15 @@
 
 ### 전면 광고\_풀스크린형
 
-| CaulyInterstitialAd                                  |                        |
-| ---------------------------------------------------- | ---------------------- |
-| setAdInfo(CaulyAdInfo)                               | 광고 정보 설정               |
-| setInterstialAdListener(CaulyInterstitialAdListener) | CaulyAdViewListener 지정 |
-| requestInterstitialAd(Activity) 전면                   | 광고 요청                  |
-| show()                                               | 수신한 전면 광고를 노출          |
-| cancel()                                             | 수신한 전면 광고를 폐기          |
-| disableBackKey()                                     | 전면광고 노출 후 back 버튼 막기   |
+| CaulyInterstitialAd                                  |                                           |
+| ---------------------------------------------------- | ----------------------------------------- |
+| setAdInfo(CaulyAdInfo)                               | 광고 정보 설정                                  |
+| setInterstialAdListener(CaulyInterstitialAdListener) | CaulyAdViewListener 지정                    |
+| requestInterstitialAd(Activity) 전면                   | 광고 요청                                     |
+| show()                                               | 수신한 전면 광고를 노출                             |
+| show(Activity)                                       | 수신한 전면 광고를 노출 (요청과 다른 Activity에서 노출하는 경우) |
+| cancel()                                             | 수신한 전면 광고를 폐기                             |
+| disableBackKey()                                     | 전면광고 노출 후 back 버튼 막기                      |
 
 | CaulyInterstitialAdListener                                                          |                                                        |
 | ------------------------------------------------------------------------------------ | ------------------------------------------------------ |
