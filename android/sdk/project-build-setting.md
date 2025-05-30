@@ -34,7 +34,7 @@ allprojects {
             url = uri("https://maven.pkg.github.com/cauly/Android-SDK/SDK")
             credentials {
                 username = 'cauly'
-                password = 'SDK 부록페이지 참고(https://adwhale.gitbook.io/sdk-android-appendix)'
+                password = 'SDK 부록페이지 참고(https://cauly.gitbook.io/cauly/sdk-android)'
             }
         }
     }
