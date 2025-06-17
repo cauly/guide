@@ -12,7 +12,7 @@
 ```java
  CaulyAdInfo adInfo = new CaulyAdInfoBuilder(APPCODE).
  	tagForChildDirectedTreatment(true).
-	build()
+	build();
 ```
 
 **COPPA에 따라 콘텐츠를 아동 대상으로 지정하지 않으려면 'tagForChildDirectedTreatment(false)' 로 호출 한다.**
@@ -20,7 +20,7 @@
 ```java
  CaulyAdInfo adInfo = new CaulyAdInfoBuilder(APPCODE).
 	 tagForChildDirectedTreatment(false).
- 	 build()
+ 	 build();
 ```
 
 {% hint style="warning" %}
