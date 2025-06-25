@@ -41,7 +41,7 @@ allprojects {
 }
 ```
 
-## 최신 SDK Version : 3.5.38
+## 최신 SDK Version : 3.5.39
 
 
 
@@ -55,7 +55,7 @@ allprojects {
 dependencies {
     implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
     implementation 'com.google.android.gms:play-services-appset:16.0.0'
-    implementation 'com.fsn.cauly:cauly-sdk:3.5.38' 
+    implementation 'com.fsn.cauly:cauly-sdk:3.5.39' 
 }
 ```
 
@@ -103,7 +103,7 @@ dependencies {
    *   아래 경로에서 Gradle 캐시 파일을 삭제한 후 프로젝트를 다시 빌드하세요:
 
        ```
-       /Users/<YOUR_USER_NAME>/.gradle/caches/modules-2/files-2.1/net.com.fsn.cauly
+       /Users/<YOUR_USER_NAME>/.gradle/caches/modules-2/files-2.1/com.fsn.cauly
        ```
 
        (운영 체제와 사용자 환경에 따라 경로가 다를 수 있습니다.)

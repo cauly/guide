@@ -4,6 +4,10 @@ description: Cauly Android Library ChangeLog
 
 # 6. ChangeLog
 
+## Version 3.5.39 (2025.06.25)
+
+* 내부 광고 개선
+
 ## Version 3.5.38 (2025.06.17)
 
 * Android 15 디바이스 전면 표시 개선
