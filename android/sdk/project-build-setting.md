@@ -10,7 +10,7 @@
 ***
 
 ```clojure
-// Cauly SDK Repository Public Access Info
+// (Deprecated 됨) Cauly SDK Repository Public Access Info
 maven {
     name = "GitHubPackages"
     url = uri("https://maven.pkg.github.com/cauly/Android-SDK/SDK")
