@@ -5,7 +5,7 @@
 {% hint style="danger" %}
 **주의)** Cauly SDK의 저장소 경로가 **GitHub Packages에서 GitHub Pages로 변경**되었습니다.
 
-**기존의 GitHub Packages 방식의 Cauly SDK 추가하기를 더이상 지원하지 않습니다.** 올바른 Cauly SDK 추가하기 동작을 위해 **아래 코드가 있다면 삭제** 합니다. 이어서 **Cauly SDK 추가하기를 진행**합니다.
+**기존의 GitHub Packages 방식의 Cauly SDK 추가하기를 더이상 지원하지 않습니다.** 올바른 Cauly SDK 추가하기 동작을 위해 **아래 코드블록을 삭제합니다**(프로젝트 레벨 build.gradle에 선언되어 있을 시에 삭제). 이어서 **Cauly SDK 추가하기를 진행**합니다.
 
 ***
 
