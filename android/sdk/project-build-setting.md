@@ -1,21 +1,11 @@
 # 2. 프로젝트 빌드 설정 (build.gradle)
 
-## Cauly SDK 저장소 경로 변경사항 안내
+## Cauly SDK 추가하기 저장소 경로 변경사항 안내
 
 {% hint style="danger" %}
-Cauly SDK의 저장소 경로가 **SDK 버전 3.5.39** 부터 **GitHub Packages에서 GitHub Pages로 변경**되었습니다.
+**주의)** Cauly SDK의 저장소 경로가 **GitHub Packages에서 GitHub Pages로 변경**되었습니다.
 
-Cauly SDK 최신 버전을 업데이트 하고자 하는 경우, 3.5.39 이상 사용해야 정상적으로 빌드할 수 있습니다.
-{% endhint %}
-
-## CAULY SDK 추가
-
-프로젝트 단위의 "**build.gradle**" 설정에 다음 항목을 추가합니다.
-
-{% hint style="danger" %}
-**주의)** 기존에 **Cauly SDK 3.5.38 이하** 에서 최신 버전으로 업데이트 하는 경우,&#x20;
-
-아래 코드가 있다면 삭제 후 다음 과정을 진행합니다.
+**기존의 GitHub Packages 방식의 Cauly SDK 추가하기를 더이상 지원하지 않습니다.** 올바른 Cauly SDK 추가하기 동작을 위해 **아래 코드가 있다면 삭제** 합니다. 이어서 **Cauly SDK 추가하기를 진행**합니다.
 
 ***
 
@@ -31,6 +21,10 @@ maven {
 }
 ```
 {% endhint %}
+
+## CAULY SDK 추가하기
+
+프로젝트 단위의 "**build.gradle**" 설정에 다음 항목을 추가합니다.
 
 ```groovy
 allprojects {
