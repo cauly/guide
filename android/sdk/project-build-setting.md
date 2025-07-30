@@ -1,11 +1,19 @@
 # 2. 프로젝트 빌드 설정 (build.gradle)
 
-## Cauly SDK 추가하기 저장소 경로 변경사항 안내
+## Cauly SDK 저장소 경로 변경 및 버전 업데이트 안내
 
 {% hint style="danger" %}
-**주의)** Cauly SDK의 저장소 경로가 **GitHub Packages에서 GitHub Pages로 변경**되었습니다.
+**꼭 확인해 주세요!**
 
-**기존의 GitHub Packages 방식의 Cauly SDK 추가하기를 더이상 지원하지 않습니다.** 올바른 Cauly SDK 추가하기 동작을 위해 **아래 코드블록을 삭제합니다(선언되어 있을 시에 삭제).**&#x20;
+Cauly SDK의 저장소 경로가 기존 **GitHub Packages** 방식에서 **GitHub Pages** 방식으로 변경되었습니다.
+
+이에 따라, **기존 GitHub Packages 경로를 통한 SDK 추가는 더 이상 지원되지 않습니다.**
+
+현재 **3.5.38 이하 버전을 사용중인 앱**의 경우, 향후 앱 업데이트 시 SDK 연결 과정에서 **예기치 않은 빌드 오류가 발생할 수 있습니다.** 안정적인 광고 연동과 빌드 오류 방지를 위해, 사전 대응 차원에서 **아래와 같은 조치를 권장**드립니다.
+
+**조치 안내**
+
+* 기존 build.gradle 내 SDK 경로 설정 코드 중 **GitHub Packages 관련 코드 블록 삭제**&#x20;
 
 ***
 
@@ -21,7 +29,8 @@ maven {
 }
 ```
 
-
+* 코드블록 삭제 후, 이어서 를 Cauly SDK 추가하기를 진행
+* dependencies 설정을 참고하여 Cauly SDK를 **최신 버전(3.5.39 이상)** 으로 업데이트
 
 삭제 후, 이어서 **Cauly SDK 추가하기를 진행**합니다.
 {% endhint %}
@@ -44,7 +53,7 @@ allprojects {
 
 ## 최신 SDK Version : 3.5.39
 
-
+## dependencies 설정
 
 앱 단위의 "build.gradle" 설정에 다음 항목을 추가합니다.
 
@@ -72,7 +81,7 @@ dependencies {
 * **오류 예시**:\
   `Could not find com.fsn.cauly:cauly-sdk:3.5.34`
 
-> **해결 방법**: `maven { url 'https://cauly.github.io/cauly-sdk-android-maven/maven-repo' }` 설정을 적용하고 최소 SDK 버전 **`3.5.39`** 을 사용하세요.
+> **해결 방법**: `maven { url 'https://cauly.github.io/cauly-sdk-android-maven/maven-repo' }` 설정을 적용하고 최신 SDK 버전 **`3.5.39`**  이상을 사용하세요.
 
 **2. Gradle Sync 및 빌드 관련 문제 해결 (1, 2 항목으로 해결 실패 시)**
 
