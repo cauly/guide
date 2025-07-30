@@ -29,8 +29,8 @@ maven {
 }
 ```
 
-* 코드블록 삭제 후, 이어서 를 Cauly SDK 추가하기를 진행
-* dependencies 설정을 참고하여 Cauly SDK를 **최신 버전(3.5.39 이상)** 으로 업데이트
+* 코드블록 삭제 후, 이어서 를 [Cauly SDK 추가하기](project-build-setting.md#cauly-sdk-1)를 진행
+* [dependencies 설정](project-build-setting.md#dependencies)을 참고하여 Cauly SDK를 **최신 버전(3.5.39 이상)** 으로 업데이트
 
 삭제 후, 이어서 **Cauly SDK 추가하기를 진행**합니다.
 {% endhint %}
