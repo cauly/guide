@@ -1,6 +1,10 @@
 # 전면
 
+{% hint style="warning" %}
+`targetSdkVersion 35` 환경의 Android 15 기기에서 **전면 광고 일부 화면 잘림 이슈**를 수정했습니다.
 
+Android 15 이상을 타겟팅하는 경우 **3.5.38 이상**을 적용합니다.
+{% endhint %}
 
 {% tabs %}
 {% tab title="Java" %}
