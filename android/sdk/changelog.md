@@ -4,6 +4,10 @@ description: Cauly Android Library ChangeLog
 
 # 6. ChangeLog
 
+## Version 3.5.41 (2025.11.06)
+
+* 내부 광고 개선
+
 ## Version 3.5.40 (2025.09.19)
 
 * 내부 광고 개선
