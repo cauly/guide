@@ -1,0 +1,422 @@
+# Static Library
+
+{% hint style="info" %}
+* Cauly SDK를 프로젝트에 추가해야합니다.
+* APP 등록 후 부여받은 APP CODE\[발급ID]를 사용합니다.
+{% endhint %}
+
+### Native Ad 구현 샘플
+
+{% tabs %}
+{% tab title="Swift" %}
+**Native Ad**
+
+```swift
+import UIKit
+import AppTrackingTransparency
+
+class ViewController: UIViewController, CaulyNativeAdDelegate {
+    
+    var nativeAd: CaulyNativeAd?
+    var nativeAdItem: Dictionary<String, Any>?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            if #available(iOS 14, *) {
+                ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in
+                    switch status {
+                    case .authorized:       // 승인
+                        print("Authorized")
+                        nativeAdRequest()    // native 광고 요청
+                    case .denied:           // 거부
+                        print("Denied")
+                    case .notDetermined:        // 미결정
+                        print("Not Determined")
+                    case .restricted:           // 제한
+                        print("Restricted")
+                    @unknown default:           // 알려지지 않음
+                        print("Unknow")
+                    }
+                })
+            }
+        }
+        
+        let adSetting = CaulyAdSetting.global()
+        CaulyAdSetting.setLogLevel(CaulyLogLevelTrace)      //  Cauly Log 레벨
+        adSetting?.appId = "1234567"                              //  App Store 에 등록된 App ID 정보 (필수)
+        adSetting?.appCode = "Cauly"                        //  Cauly AppCode
+        adSetting?.closeOnLanding = true;                   // 광고 랜딩 시 WebView 제거 여부
+    }
+    
+    func nativeAdRequest() {
+        // Native Ad 호출
+        var nativeAd = CaulyNativeAd(parentViewController: self)        // 네이티브 광고 객체 생성
+        nativeAd!.delegate = self       // 네이티브 광고 delegate 설정
+        
+        // imageSize argument를 통해 다양한 사이즈를 사용하여 구성할 수 있습니다.
+        // 첫번째 argument는 요청할 nativa 광고의 갯수 eg) 1- 한개, 2- 두개
+        nativeAd!.startRequest(2, nativeAdComponentType: CaulyNativeAdComponentType_Image, imageSize: "720x480")
+    }
+    
+    // Native AD API
+    // MARK: - CaulyNativeAdDelegate
+    
+    // Native Ad 수신 성공
+    func didReceive(_ nativeAd: CaulyNativeAd!, isChargeableAd: Bool) {
+        NSLog(@"didReceiveNativeAd");
+    }
+    
+    // 광고 정보 수신 실패
+    func didFail(toReceive nativeAd: CaulyNativeAd!, errorCode: Int32, errorMsg: String!) {
+        NSLog("didFailToReceiveNativeAd : %d(%@)", errorCode, errorMsg)
+    }
+}
+```
+
+***
+
+**Native Ad View 생성예제**
+
+* Sample code to generate View
+
+```swift
+// 광고 정보 수신 성공
+func didReceive(_ nativeAd: CaulyNativeAd!, isChargeableAd: Bool) {
+    NSLog("didReceiveNativeAd")
+    
+    guard let caulyNativeAd = nativeAd.nativeAdItem(at: 0) else {
+        NSLog("receive native ad no fill")
+        return
+    }
+    
+    do {
+        nativeAdItem = try JSONSerialization.jsonObject(with: Data((caulyNativeAd.nativeAdJSONString.utf8)), options: []) as? Dictionary<String, Any>
+    } catch {
+        print(error.localizedDescription)
+    }
+    
+    //    NativeAdViewViewController
+    let areaSelectView = NativeAdViewViewViewController(nibName: "NativeAdViewViewController", bundle: nil)
+    
+    areaSelectView.nativeAd = nativeAd;
+    
+    self.navigationController?.modalPresentationStyle = UIModalPresentationStyle.currentContext
+    self.present(areaSelectView, animated: false, completion: nil)
+    areaSelectView.view.alpha = 0
+    
+    UIView.animate(withDuration: 0.5, animations: {
+        areaSelectView.view.alpha = 1
+        
+        guard var url = URL(string: self.nativeAdItem?["icon"] as! String) else {
+            return
+        }
+        
+        var data = try? Data(contentsOf: url)
+        let icon = UIImage(data: data!)
+        
+        if (self.nativeAdItem?["image"] != nil) {
+            url = URL(string: self.nativeAdItem?["image"] as! String)!
+            data = try? Data(contentsOf: url)
+            let image = UIImage(data: data!)
+            areaSelectView.image.image = image
+        }
+        
+        areaSelectView.icon.image = icon
+        
+        areaSelectView.mainTitle.text = self.nativeAdItem?["title"] as? String
+        areaSelectView.subTitle.text = self.nativeAdItem?["subtitle"] as? String
+        areaSelectView.descriptionLabel.text = self.nativeAdItem?["description"] as? String
+        areaSelectView.link = self.nativeAdItem?["link"] as? NSString
+        
+        areaSelectView.optOutButton.isHidden = self.nativeAdItem?["opt"] as! String == "N"
+        
+        areaSelectView.jsonStringTextView.text = caulyNativeAd.nativeAdJSONString
+    })
+}
+
+// 광고 정보 수신 실패
+func didFail(toReceive nativeAd: CaulyNativeAd!, errorCode: Int32, errorMsg: String!) {
+    NSLog("didFailToReceiveNativeAd : %d(%@)", errorCode, errorMsg)
+}
+```
+
+***
+
+* NativeAdViewViewController
+
+```swift
+import UIKit
+
+class NativeAdViewViewViewController: UIViewController {
+    
+    @IBOutlet var mainTitle: UILabel!
+    @IBOutlet var subTitle: UILabel!
+    @IBOutlet var descriptionLabel: UILabel!
+    @IBOutlet var icon: UIImageView!
+    @IBOutlet var image: UIImageView!
+    @IBOutlet var jsonStringTextView: UITextView!
+    @IBOutlet var optOutButton: UIButton!
+    @IBOutlet var closeButton: UIButton!
+    
+    var link: NSString?
+    var nativeAd: CaulyNativeAd?
+    var nativeAdItem: CaulyNativeAdItem?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Do any additional setup after loading the view.
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        NSLog("Inform")
+        nativeAd?.sendInform(nativeAdItem)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    
+    @IBAction func didViewTouchUpInside(_ sender: UIButton) {
+        NSLog("Native ad Clicked")
+     
+        UIView.animate(withDuration: 0.5, animations: {
+            self.view.alpha = 0
+        }, completion: {b in
+            self.nativeAd?.click(self.nativeAdItem)
+            
+            self.view.alpha = 1
+            self.presentingViewController?.dismiss(animated: false, completion: nil)
+        })
+    }
+    
+    @IBAction func closeButtonTouchUpInside(_ sender: UIButton) {
+        self.presentingViewController?.dismiss(animated: false, completion: nil)
+    }
+    
+    @IBAction func optOutButtonTouchUpInside(_ sender: UIButton) {
+        self.nativeAd?.send(toOptOutLinkUrl: nativeAdItem)
+    }
+}
+```
+{% endtab %}
+
+{% tab title="Objective-C" %}
+**Native Ad**
+
+```objective-c
+#import <UIKit/UIKit.h>
+
+#import "Cauly.h"
+#import "CaulyNativeAd.h"
+#import <AppTrackingTransparency/AppTrackingTransparency.h>
+
+@interface ViewController () <CaulyNativeAdDelegate>
+
+@property (strong, nonatomic) CaulyNativeAd * nativeAd;
+
+@end
+
+@implementation ViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    if (@available(iOS 14, *)) {
+        [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
+            switch (status) {
+                // 승인
+                case ATTrackingManagerAuthorizationStatusAuthorized:
+                    [self nativeAdRequest];     // native 광고 요청
+                    break;
+                // 거부
+                case ATTrackingManagerAuthorizationStatusDenied:
+                    break;
+                // 제한
+                case ATTrackingManagerAuthorizationStatusRestricted:
+                    break;
+                // 미결정
+                default:
+                    break;
+            }
+        }];
+    }
+    
+    CaulyAdSetting * adSetting = [CaulyAdSetting globalSetting];
+    [CaulyAdSetting setLogLevel:CaulyLogLevelTrace];            //  Cauly Log 레벨
+    adSetting.appId                 = @"1234567";               //  App Store 에 등록된 App ID 정보 (필수)
+    adSetting.appCode               = @"Cauly";                 //  Cauly AppCode
+    adSetting.closeOnLanding        = YES;                      //  Landing 이동시 webview control lose 여부
+}
+
+- (void)nativeAdRequest {
+    // Native Ad 호출
+    CaulyNativeAd _nativeAd = [[CaulyNativeAd alloc] initWithParentViewController:self];
+    _nativeAd.delegate = self;
+    
+    [_nativeAd startNativeAdRequest:2
+    nativeAdComponentType:CaulyNativeAdComponentType_IconImage 
+    imageSize:@"720x480"];
+}
+
+
+// Native AD API
+#pragma mark - CaulyNativeAdDelegate
+
+// Native Ad 수신 성공
+- (void)didReceiveNativeAd:(CaulyNativeAd *)nativeAd isChargeableAd:(BOOL)isChargeableAd{
+    NSLog(@"didReceiveNativeAd");
+}
+
+// 광고 정보 수신 실패
+- (void)didFailToReceiveNativeAd:(CaulyNativeAd *)nativeAd errorCode:(int)errorCode errorMsg:(NSString *)errorMsg{
+    NSLog(@"didFailToReceiveNativeAd");
+}
+```
+
+***
+
+**Native Ad View 생성예제**
+
+* Sample code to generate View
+
+```objective-c
+// 광고 정보 수신 성공
+- (void)didReceiveNativeAd:(CaulyNativeAd *)nativeAd isChargeableAd:(BOOL)isChargeableAd{
+    NSLog(@"didReceiveNativeAd");
+    CaulyNativeAdItem* caulyNativeAd = [nativeAd nativeAdItemAt:0];
+
+    NSArray* allList= [nativeAd nativeAdItemList];
+    NSLog(@"%@",caulyNativeAd);
+    NSLog(@"%@",caulyNativeAd.nativeAdJSONString);
+
+    for(CaulyNativeAdItem* adItem in allList){
+        NSLog(@"%@",adItem.nativeAdJSONString);
+    }
+
+    NSError *error;
+    NSDictionary *nativeAdItem = [NSJSONSerialization JSONObjectWithData:[caulyNativeAd.nativeAdJSONString dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&error];
+
+    NativeAdViewViewController *areaSelectView = [[NativeAdViewViewController alloc] initWithNibName:@"NativeAdViewViewController" bundle:nil];
+
+    areaSelectView.nativeAd = nativeAd;
+
+    self.navigationController.modalPresentationStyle = UIModalPresentationCurrentContext;
+    [self presentModalViewController:areaSelectView animated:NO];
+    areaSelectView.view.alpha = 0;
+    [UIView animateWithDuration:0.5 animations:^{
+        areaSelectView.view.alpha = 1;
+
+        NSURL *url = [NSURL URLWithString:nativeAdItem[@"icon"]];
+        NSData *data = [NSData dataWithContentsOfURL:url];
+        UIImage *icon = [UIImage imageWithData:data];
+
+        if(nativeAdItem[@"image"]){
+            url = [NSURL URLWithString:nativeAdItem[@"image"]];
+            data = [NSData dataWithContentsOfURL:url];
+            UIImage *image = [UIImage imageWithData:data];
+            [areaSelectView.image setImage:image];
+        }
+
+        [areaSelectView.icon setImage:icon];
+
+        [areaSelectView.mainTitle setText:nativeAdItem[@"title"]];
+        [areaSelectView.subTitle setText:nativeAdItem[@"subtitle"]];
+        [areaSelectView.descriptionLabel setText:nativeAdItem[@"description"]];
+        areaSelectView.link = nativeAdItem[@"link"];
+        [areaSelectView.optOutButton setHidden:[nativeAdItem[@"opt"] isEqualToString:@"N"]];
+
+        [areaSelectView.jsonStringTextView setText:caulyNativeAd.nativeAdJSONString];
+    }];
+
+}
+
+// 광고 정보 수신 실패
+- (void)didFailToReceiveNativeAd:(CaulyNativeAd *)nativeAd errorCode:(int)errorCode errorMsg:(NSString *)errorMsg{
+    NSLog(@"didFailToReceiveNativeAd");
+}
+```
+
+***
+
+* NativeAdViewViewController
+
+```objective-c
+#import <UIKit/UIKit.h>
+#import "CaulyNativeAd.h"
+
+@interface NativeAdViewViewController : UIViewController
+
+@property (weak, nonatomic) IBOutlet UILabel *mainTitle;
+@property (weak, nonatomic) IBOutlet UILabel *subTitle;
+@property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *icon;
+@property (weak, nonatomic) IBOutlet UIImageView *image;
+@property (weak, nonatomic) IBOutlet UITextView *jsonStringTextView;
+@property (weak, nonatomic) IBOutlet UIButton *optOutButton;
+@property (weak, nonatomic) IBOutlet UIButton *closeButton;
+
+@property (nonatomic) NSString* link;
+@property (assign) CaulyNativeAd* nativeAd;
+@property (assign) CaulyNativeAdItem* nativeAdItem;
+@end
+```
+
+***
+
+```objective-c
+#import "NativeAdViewViewController.h"
+
+@interface NativeAdViewViewController ()
+
+@end
+
+@implementation NativeAdViewViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view from its nib.
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    NSLog(@"Inform");
+    [_nativeAd sendInform:_nativeAdItem];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)closeButtonTouchUpInside:(id)sender {
+    [self.presentingViewController dismissModalViewControllerAnimated:NO];
+}
+
+// optOut 링크 처리
+- (IBAction)optOutButtonTouchUpInside:(id)sender {
+    [_nativeAd sendToOptOutLinkUrl:_nativeAdItem];
+}
+
+
+- (IBAction)didViewTouchUpInside:(id)sender {
+    NSLog(@"Native ad Clicked");
+
+    [UIView animateWithDuration:0.5 animations:^{
+        self.view.alpha = 0;
+    } completion:^(BOOL b){
+        [_nativeAd click:_nativeAdItem];
+
+        self.view.alpha = 1;
+        [self.presentingViewController dismissModalViewControllerAnimated:NO];
+    }];
+}
+
+@end
+```
+{% endtab %}
+{% endtabs %}

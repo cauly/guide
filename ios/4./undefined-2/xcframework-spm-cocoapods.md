@@ -1,45 +1,9 @@
-# 네이티브
+# XCFramework(SPM, Cocoapods 공용)
 
 {% hint style="info" %}
 * Cauly SDK를 프로젝트에 추가해야합니다.
 * APP 등록 후 부여받은 APP CODE\[발급ID]를 사용합니다.
 {% endhint %}
-
-### Import 방법
-
-{% tabs %}
-{% tab title="Swift" %}
-#### **XCFramework 사용 (SPM, Cocoapods 공통)**
-
-```swift
-import CaulySDK
-```
-
-#### **Static Library 사용**
-
-```
-Swift 코드에서는 Bridging Header 설정 후,
-별도의 import 없이 바로 사용 가능합니다.
-```
-{% endtab %}
-
-{% tab title="Objective-C" %}
-#### **XCFramework 사용 (SPM, Cocoapods 공통)**
-
-```objective-c
-@import CaulySDK;
-```
-
-#### **Static Library 사용**
-
-```objective-c
-#import "Cauly.h"
-#import "CaulyAdView.h"
-#import "CaulyInterstitialAd.h"
-#import "CaulyNativeAd.h"
-```
-{% endtab %}
-{% endtabs %}
 
 ### Native Ad 구현 샘플
 
@@ -249,8 +213,7 @@ class NativeAdViewViewViewController: UIViewController {
 ```objective-c
 #import <UIKit/UIKit.h>
 
-#import "Cauly.h"
-#import "CaulyNativeAd.h"
+@import CaulySDK;
 #import <AppTrackingTransparency/AppTrackingTransparency.h>
 
 @interface ViewController () <CaulyNativeAdDelegate>
@@ -285,7 +248,7 @@ class NativeAdViewViewViewController: UIViewController {
     }
     
     CaulyAdSetting * adSetting = [CaulyAdSetting globalSetting];
-    [CaulyAdSetting setLogLevel:CaulyLogLevelDebug];            //  Cauly Log 레벨
+    [CaulyAdSetting setLogLevel:CaulyLogLevelTrace];            //  Cauly Log 레벨
     adSetting.appId                 = @"1234567";               //  App Store 에 등록된 App ID 정보 (필수)
     adSetting.appCode               = @"Cauly";                 //  Cauly AppCode
     adSetting.closeOnLanding        = YES;                      //  Landing 이동시 webview control lose 여부
@@ -385,7 +348,7 @@ class NativeAdViewViewViewController: UIViewController {
 
 ```objective-c
 #import <UIKit/UIKit.h>
-#import "CaulyNativeAd.h"
+@import CaulySDK;
 
 @interface NativeAdViewViewController : UIViewController
 
