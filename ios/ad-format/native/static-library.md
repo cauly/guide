@@ -1,4 +1,4 @@
-# XCFramework(SPM, Cocoapods 공용)
+# Static Library
 
 {% hint style="info" %}
 * Cauly SDK를 프로젝트에 추가해야합니다.
@@ -13,7 +13,6 @@
 
 ```swift
 import UIKit
-import CaulySDK
 import AppTrackingTransparency
 
 class ViewController: UIViewController, CaulyNativeAdDelegate {
@@ -83,63 +82,116 @@ class ViewController: UIViewController, CaulyNativeAdDelegate {
 * Sample code to generate View
 
 ```swift
-// 광고 정보 수신 성공
+// 네이티브 광고 정보 수신 성공
 func didReceive(_ nativeAd: CaulyNativeAd!, isChargeableAd: Bool) {
     NSLog("didReceiveNativeAd")
-    
+
     guard let caulyNativeAd = nativeAd.nativeAdItem(at: 0) else {
         NSLog("receive native ad no fill")
         return
     }
-    
+
+    // JSON parse
     do {
-        nativeAdItem = try JSONSerialization.jsonObject(with: Data((caulyNativeAd.nativeAdJSONString.utf8)), options: []) as? Dictionary<String, Any>
+        nativeAdItem = try JSONSerialization.jsonObject(
+            with: Data(caulyNativeAd.nativeAdJSONString.utf8),
+            options: []
+        ) as? [String: Any]
     } catch {
-        print(error.localizedDescription)
+        NSLog("nativeAdItem parse error: %@", error.localizedDescription)
+        nativeAdItem = nil
     }
-    
-    //    NativeAdViewViewController
-    let areaSelectView = NativeAdViewViewViewController(nibName: "NativeAdViewViewController", bundle: nil)
-    
-    areaSelectView.nativeAd = nativeAd;
-    
-    self.navigationController?.modalPresentationStyle = UIModalPresentationStyle.currentContext
+
+    // NativeAdViewViewController
+    let areaSelectView = NativeAdViewViewViewController(
+        nibName: "NativeAdViewViewController",
+        bundle: nil
+    )
+    areaSelectView.nativeAd = nativeAd
+
+    self.navigationController?.modalPresentationStyle = .currentContext
     self.present(areaSelectView, animated: false, completion: nil)
+
     areaSelectView.view.alpha = 0
-    
-    UIView.animate(withDuration: 0.5, animations: {
-        areaSelectView.view.alpha = 1
-        
-        guard var url = URL(string: self.nativeAdItem?["icon"] as! String) else {
-            return
+
+    // ---- (1) 텍스트/옵션 UI 바인딩----
+    areaSelectView.mainTitle.text = nativeAdItem?["title"] as? String
+    areaSelectView.subTitle.text = nativeAdItem?["subtitle"] as? String
+    areaSelectView.descriptionLabel.text = nativeAdItem?["description"] as? String
+    areaSelectView.link = nativeAdItem?["link"] as? NSString
+    areaSelectView.jsonStringTextView.text = caulyNativeAd.nativeAdJSONString
+
+    if let opt = nativeAdItem?["opt"] as? String {
+        areaSelectView.optOutButton.isHidden = (opt == "N")
+    } else {
+        areaSelectView.optOutButton.isHidden = true
+    }
+
+    // ---- (2) 이미지 URL 추출 ----
+    let iconURLString = nativeAdItem?["icon"] as? String
+    let imageURLString = nativeAdItem?["image"] as? String
+
+    // ---- (3) 아이콘/메인 이미지 비동기 로드 후 UI 업데이트 ----
+    let group = DispatchGroup()
+
+    var loadedIcon: UIImage?
+    var loadedImage: UIImage?
+
+    group.enter()
+    ImageLoader.shared.loadImage(from: iconURLString) { image in
+        loadedIcon = image
+        group.leave()
+    }
+
+    if imageURLString != nil {
+        group.enter()
+        ImageLoader.shared.loadImage(from: imageURLString) { image in
+            loadedImage = image
+            group.leave()
         }
-        
-        var data = try? Data(contentsOf: url)
-        let icon = UIImage(data: data!)
-        
-        if (self.nativeAdItem?["image"] != nil) {
-            url = URL(string: self.nativeAdItem?["image"] as! String)!
-            data = try? Data(contentsOf: url)
-            let image = UIImage(data: data!)
-            areaSelectView.image.image = image
+    }
+
+    group.notify(queue: .main) {
+        // 이미지 반영
+        areaSelectView.icon.image = loadedIcon
+        areaSelectView.image.image = loadedImage
+
+        UIView.animate(withDuration: 0.5) {
+            areaSelectView.view.alpha = 1
         }
-        
-        areaSelectView.icon.image = icon
-        
-        areaSelectView.mainTitle.text = self.nativeAdItem?["title"] as? String
-        areaSelectView.subTitle.text = self.nativeAdItem?["subtitle"] as? String
-        areaSelectView.descriptionLabel.text = self.nativeAdItem?["description"] as? String
-        areaSelectView.link = self.nativeAdItem?["link"] as? NSString
-        
-        areaSelectView.optOutButton.isHidden = self.nativeAdItem?["opt"] as! String == "N"
-        
-        areaSelectView.jsonStringTextView.text = caulyNativeAd.nativeAdJSONString
-    })
+    }
 }
 
 // 광고 정보 수신 실패
 func didFail(toReceive nativeAd: CaulyNativeAd!, errorCode: Int32, errorMsg: String!) {
     NSLog("didFailToReceiveNativeAd : %d(%@)", errorCode, errorMsg)
+}
+
+final class ImageLoader {
+    static let shared = ImageLoader()
+
+    private let cache = NSCache<NSString, UIImage>()
+
+    func loadImage(from urlString: String?, completion: @escaping (UIImage?) -> Void) {
+        guard let urlString, let url = URL(string: urlString) else {
+            completion(nil)
+            return
+        }
+
+        if let cached = cache.object(forKey: urlString as NSString) {
+            completion(cached)
+            return
+        }
+
+        URLSession.shared.dataTask(with: url) { [weak self] data, _, _ in
+            guard let data, let image = UIImage(data: data) else {
+                completion(nil)
+                return
+            }
+            self?.cache.setObject(image, forKey: urlString as NSString)
+            completion(image)
+        }.resume()
+    }
 }
 ```
 
@@ -149,7 +201,6 @@ func didFail(toReceive nativeAd: CaulyNativeAd!, errorCode: Int32, errorMsg: Str
 
 ```swift
 import UIKit
-import CaulySDK
 
 class NativeAdViewViewViewController: UIViewController {
     
@@ -213,7 +264,8 @@ class NativeAdViewViewViewController: UIViewController {
 ```objective-c
 #import <UIKit/UIKit.h>
 
-@import CaulySDK;
+#import "Cauly.h"
+#import "CaulyNativeAd.h"
 #import <AppTrackingTransparency/AppTrackingTransparency.h>
 
 @interface ViewController () <CaulyNativeAdDelegate>
@@ -348,7 +400,7 @@ class NativeAdViewViewViewController: UIViewController {
 
 ```objective-c
 #import <UIKit/UIKit.h>
-@import CaulySDK;
+#import "CaulyNativeAd.h"
 
 @interface NativeAdViewViewController : UIViewController
 

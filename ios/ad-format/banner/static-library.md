@@ -1,4 +1,4 @@
-# XCFramework(SPM, Cocoapods 공용)
+# Static Library
 
 {% hint style="info" %}
 * Cauly SDK를 프로젝트에 추가해야합니다.
@@ -21,7 +21,6 @@
 {% tab title="Swift" %}
 ```swift
 import UIKit
-import CaulySDK
 import AppTrackingTransparency
 
 class ViewController: UIViewController, CaulyAdViewDelegate {
@@ -85,6 +84,16 @@ class ViewController: UIViewController, CaulyAdViewDelegate {
     func didFail(toReceiveAd adView: CaulyAdView!, errorCode: Int32, errorMsg: String!) {
         print("didFailToReceiveAd:\(errorCode)(\(errorMsg!))");
     }
+    
+    // 랜딩 화면 표시
+    func willShowLanding(_ adView: CaulyAdView!) {
+         print("willShowLandingView")
+    }
+    
+    // 랜딩 화면이 닫혔을 때
+    func didCloseLanding(_ adView: CaulyAdView!) {
+         print("didCloseLandingView")
+    }
 }
 ```
 {% endtab %}
@@ -93,7 +102,8 @@ class ViewController: UIViewController, CaulyAdViewDelegate {
 ```objective-c
 #import <UIKit/UIKit.h>
 
-@import CaulySDK;
+#import "Cauly.h"
+#import "CaulyAdView.h"
 #import <AppTrackingTransparency/AppTrackingTransparency.h>
 
 @interface ViewController () <CaulyAdViewDelegate>
@@ -161,6 +171,16 @@ class ViewController: UIViewController, CaulyAdViewDelegate {
 // 광고 정보 수신 실패
 - (void)didFailToReceiveAd:(CaulyAdView *)adView errorCode:(int)errorCode errorMsg:(NSString *)errorMsg {
     NSLog(@"didFailToReceiveAd : %d(%@)", errorCode, errorMsg);
+}
+
+// 랜딩 화면 표시
+- (void)willShowLandingView:(CaulyAdView *)adView {
+	NSLog(@"willShowLandingView");
+}
+
+// 랜딩 화면이 닫혔을 때
+- (void)didCloseLandingView:(CaulyAdView *)adView {
+	NSLog(@"didCloseLandingView");
 }
 ```
 {% endtab %}

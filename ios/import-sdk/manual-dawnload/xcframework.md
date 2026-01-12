@@ -16,8 +16,11 @@ XCFramework 방식에서는\
 
 * `CaulySDK.xcframework`
 
-> XCFramework 방식은\
-> **Swift / Objective-C 프로젝트 모두에서 사용 가능합니다.**
+{% hint style="info" %}
+XCFramework 방식은
+
+**Swift / Objective-C 프로젝트 모두에서 사용 가능합니다.**
+{% endhint %}
 
 ***
 
@@ -92,8 +95,11 @@ XCFramework 방식에서는\
 * ❌ Bridging Header 생성 및 설정
 * ❌ `libCauly.a`, `libCauly-universal.a` 추가
 
-> ⚠️ Static Library 방식과 혼용할 경우\
-> 중복 심볼 또는 링크 오류가 발생할 수 있습니다.
+{% hint style="warning" %}
+Static Library 방식과 혼용할 경우
+
+중복 심볼 또는 링크 오류가 발생할 수 있습니다.
+{% endhint %}
 
 ***
 

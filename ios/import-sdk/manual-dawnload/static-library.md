@@ -7,8 +7,11 @@ Static Library 방식은\
 기존 레거시 프로젝트 또는 `.a` 기반 라이브러리를 사용 중인 환경과의\
 호환을 위해 제공됩니다.
 
-> ⚠️ 가능하다면 **XCFramework 방식 사용을 권장**합니다.\
-> Static Library 방식은 **유지·호환 목적의 설치 방법**입니다.
+{% hint style="warning" %}
+가능하다면 **XCFramework 방식 사용을 권장**합니다.
+
+Static Library 방식은 **유지·호환 목적의 설치 방법**입니다.
+{% endhint %}
 
 ***
 
@@ -22,8 +25,11 @@ Static Library 방식에서는\
 * iOS 시스템 Framework
 * (Swift 프로젝트인 경우) Bridging Header 설정
 
-> ❗ Static Library 방식에서는\
-> &#xNAN;**`CaulySDK.xcframework`를 사용하지 않습니다.**
+{% hint style="danger" %}
+Static Library 방식에서는
+
+**`CaulySDK.xcframework`를 사용하지 않습니다.**
+{% endhint %}
 
 ***
 
@@ -38,8 +44,11 @@ Static Library 방식에서는\
 | `libCauly.a`           | iOS 디바이스 전용     |
 | `libCauly-universal.a` | 시뮬레이터 + 디바이스 통합 |
 
-> 일반적인 개발 환경에서는\
-> &#xNAN;**`libCauly-universal.a` 사용을 권장**합니다.
+{% hint style="info" %}
+일반적인 개발 환경에서는
+
+**`libCauly-universal.a` 사용을 권장**합니다.
+{% endhint %}
 
 ***
 
@@ -98,8 +107,11 @@ Cauly iOS SDK는 내부적으로 iOS 시스템 Framework를 사용합니다.\
 
 ### 4. Swift 프로젝트 – Bridging Header 설정
 
-> ⚠️ **이 단계는 Swift 프로젝트에서만 필요합니다.**\
-> Objective-C 프로젝트인 경우 본 단계를 건너뛰세요.
+{% hint style="info" %}
+**이 단계는 Swift 프로젝트에서만 필요합니다.**
+
+Objective-C 프로젝트인 경우 본 단계를 건너뛰세요.
+{% endhint %}
 
 ***
 
