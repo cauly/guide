@@ -2,7 +2,8 @@
 
 ## ANDROID
 
-* [1. 요구사항 및 사용권한](README.md)
+* [주요공지 및 안내사항](README.md)
+* [1. 요구사항 및 사용권한](<README (1).md>)
 * [2. 프로젝트 빌드 설정 (build.gradle)](android/project-build-setting.md)
 * [3. 광고 구현](android/ad-formats/README.md)
   * [배너](android/ad-formats/banner.md)
@@ -20,10 +21,10 @@
 * [7. ETC](android/etc/README.md)
   * [Error Code](android/etc/error-code.md)
   * [Class Reference](android/etc/class-reference.md)
-* [8. 주요공지 및 안내사항](android/notices.md)
 
 ## iOS
 
+* [주요공지 및 안내사항](ios/notices.md)
 * [1. 요구사항 및 사용권한](ios/app-prerequisites.md)
 * [2. SDK 설치](ios/import-sdk/README.md)
   * [Swift Package Manager](ios/import-sdk/swift-package-manager.md)
@@ -56,4 +57,3 @@
 * [7. ETC](ios/etc/README.md)
   * [Error Code](ios/etc/error-code.md)
   * [Class Reference](ios/etc/class-reference.md)
-* [8. 주요공지 및 안내사항](ios/notices.md)

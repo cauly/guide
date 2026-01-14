@@ -4,14 +4,31 @@ description: SDK를 연동하는 다양한 방법에 대해 소개합니다.
 
 # 2. SDK 설치
 
-{% hint style="info" %}
+{% hint style="success" %}
 Cauly iOS SDK는 다음과 같은 설치 방식을 제공하며,
 
-신규 연동 및 일반적인 프로젝트 환경에서는 **Swift Package Manager 또는 CocoaPods 사용을 권장합니다.**
+신규 연동 및 일반적인 프로젝트 환경에서는 **Swift Package Manager(SPM) 사용을 권장합니다.**
+
+***
 
 * Swift Package Manager (권장)
-* CocoaPods (권장)
-* 수동 다운로드 (선택)
+* CocoaPods (지원 종료 예정 – 2026년 내)
+* 수동 다운로드
+{% endhint %}
+
+{% hint style="danger" %}
+CocoaPods 정책 변경에 따라,\
+**Cauly iOS SDK의 CocoaPods 지원은 2026년 내 종료될 예정**입니다.
+
+이에 따라 CocoaPods 환경에서는\
+**신규 기능 추가 및 장기적인 업데이트가 제공되지 않습니다.**
+
+신규 연동 또는 향후 유지보수를 고려 중인 프로젝트의 경우\
+**Swift Package Manager(SPM) 또는 수동 다운로드 방식 사용을 권장**드립니다.
+
+***
+
+CocoaPods 지원 중단 배경 및 상세 내용은 [**주요공지 및 안내사항**](../notices.md#cocoapods)을 참고해 주세요.
 {% endhint %}
 
 ## 최신 SDK Version : 3.1.22
