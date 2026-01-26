@@ -86,6 +86,12 @@ public void onClickInterstitialAd(CaulyInterstitialAd ad) {
     // 전면 광고를 클릭할 경우 호출됨.
     Log.d("CaulyExample", "interstitial AD onClickInterstitialAd.");
 }
+
+//광고 로드 요청 이후 show() 호출할 때 로드가 만료 됐을때 호출된다.
+@Override
+public void onTimeout(CaulyCloseAd ad, String errorMsg) {
+    Log.d("CaulyExample", "interstitial AD onTimeout.");
+}
 ```
 
 {% hint style="danger" %}
@@ -211,11 +217,6 @@ public class JavaActivity extends Activity implements CaulyCloseAdListener {
     // CloseAd의 광고를 클릭할 경우 호출되는 함수이다.
     @Override
     public void onClickCloseAd(CaulyCloseAd ad) {
-    }
-    
-    //광고 로드 요청 이후 show() 호출할 때 로드가 만료 됐을때 호출된다.
-    @Override
-    public void onTimeout(CaulyCloseAd ad, String errorMsg) {
     }
 }
 ```
