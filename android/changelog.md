@@ -6,9 +6,8 @@ description: Cauly Android Library ChangeLog
 
 ## Version 3.5.42 (2026.01.26)
 
-* 화면off시 광고 요청 옵션 추가
-* 잠금화면에서 광고 요청 옵션 추가
-* \<queries> 태그 삭제
+* 화면 off시 광고 요청 옵션 추가
+* 잠금 화면에서 광고 요청 옵션 추가
 
 ## Version 3.5.41 (2025.11.06)
 

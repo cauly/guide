@@ -212,6 +212,11 @@ public class JavaActivity extends Activity implements CaulyCloseAdListener {
     @Override
     public void onClickCloseAd(CaulyCloseAd ad) {
     }
+    
+    //광고 로드 요청 이후 show() 호출할 때 로드가 만료 됐을때 호출된다.
+    @Override
+    public void onTimeout(CaulyCloseAd ad, String errorMsg) {
+    }
 }
 ```
 {% endtab %}

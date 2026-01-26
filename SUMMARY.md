@@ -7,6 +7,7 @@
 * [2. 프로젝트 빌드 설정 (build.gradle)](android/project-build-setting.md)
 * [3. 광고 구현](android/ad-formats/README.md)
   * [배너](android/ad-formats/banner.md)
+  * [preload 배너](android/ad-formats/preload.md)
   * [전면](android/ad-formats/interstitial.md)
   * [네이티브](android/ad-formats/native.md)
 * [4. Sample Project](android/sample-project.md)
