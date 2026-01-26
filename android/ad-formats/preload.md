@@ -85,9 +85,6 @@ private void cleanupBanner() {
 public void onReceiveAd(CaulyAdBannerView adView, boolean isChargeableAd) {
     Log.d(TAG, "banner AD received.");
     isAdLoaded = true;
-
-    // 자동 show 금지: 여기서 show() 호출하지 않음
-    // 필요 시, 앱 로직에서 showBanner()를 호출하세요.
 }
 
 @Override
