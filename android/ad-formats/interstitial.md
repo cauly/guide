@@ -297,6 +297,11 @@ override fun onClickInterstitialAd(ad: CaulyInterstitialAd) {
     // 전면 광고를 클릭할 경우 호출됨.
     Log.d("CaulyExample", "interstitial AD onClickInterstitialAd.");
 }
+
+override fun onTimeout(ad: CaulyInterstitialAd, errorMsg: String) {
+    // 전면 광고 수신 후 광고가 만료된 경우 호출됨.
+    Log.d("CaulyExample", "interstitial AD onTimeout.")
+}
 ```
 
 {% hint style="danger" %}

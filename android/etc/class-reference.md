@@ -31,6 +31,26 @@
 | onCloseLandingScreen(CaulyAdView)                                | webView를 통해 열린 랜딩 페이지가 닫힌 경우 호출됨                       |
 | onClickAd(CaulyAdView)                                           | 광고 클릭 시 호출됨                                            |
 
+
+
+| <p>CaulyAdBannerView<br>[광고 뷰 클래스]</p> |                        |
+| -------------------------------------- | ---------------------- |
+| setAdInfo(CaulyAdInfo)                 | 광고 정보 설정               |
+| setAdViewListener(CaulyAdViewListener) | CaulyAdViewListener 지정 |
+| setShowPreExpandableAd(boolean)        | P/E 광고 허용 여부 설정        |
+| allowLoadWhenScreenOff(boolean)        | 화면 off시 광고 요청 허용 여부 설정 |
+| enableLock(boolean)                    | 잠금 화면에서 광고 요청 허용 여부 설정 |
+| destroy()                              | 광고 소멸                  |
+
+| CaulyAdBannerViewListener                                        |                                                        |
+| ---------------------------------------------------------------- | ------------------------------------------------------ |
+| onReceiveAd(CaulyAdView, boolean isChargeableAd)                 | 광고 노출 성공 시 호출됨. 유,무료 광고 여부가 isChargeableAd 변수에 설정됨     |
+| onFailedToReceiveAd(CaulyAdView, int errorCode, String errorMsg) | 광고 노출 실패 시 호출됨. 오류 코드와 내용이 errorCode, errorMsg 변수에 설정됨 |
+| onShowLandingScreen(CaulyAdView)                                 | webView를 통해 랜딩 페이지가 열린 경우 호출됨                          |
+| onCloseLandingScreen(CaulyAdView)                                | webView를 통해 열린 랜딩 페이지가 닫힌 경우 호출됨                       |
+| onClickAd(CaulyAdView)                                           | 광고 클릭 시 호출됨                                            |
+| onTimeout(CaulyAdView, String errorMsg)                          | 수신한 광고가 만료된 경우 호출됨                                     |
+
 ### 전면 광고\_풀스크린형
 
 | CaulyInterstitialAd                                  |                                           |
@@ -50,6 +70,7 @@
 | onClosedInterstitialAd(CaulyInterstitialAd)                                          | 전면 광고 페이지가 닫힌 경우 호출됨                                   |
 | onLeaveInterstitialAd(CaulyInterstitialAd ad)                                        | 전면 광고를 클릭하여 앱을 벗어났을 경우 호출됨                             |
 | onClickInterstitialAd(CaulyInterstitialAd ad)                                       | 전면 광고 클릭 시 호출됨                                         |
+| onTimeout(CaulyAdView, String errorMsg)                                              | 수신한 광고가 만료된 경우 호출됨                                     |
 
 ### 전면 광고\_플로팅형
 

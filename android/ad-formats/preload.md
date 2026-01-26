@@ -127,6 +127,115 @@ public void onTimeout(CaulyAdBannerView adView, String msg) {
 </RelativeLayout>
 ```
 {% endtab %}
+
+{% tab title="Kotlin" %}
+```kotlin
+companion object {
+private const val TAG = "CaulyExample"
+private const val APP_CODE = "YOUR_APP_CODE"
+    }
+
+private lateinit var layout: RelativeLayout // activity_xml에서 id=layout
+private var bannerView: CaulyAdBannerView? = null
+private var isAdLoaded = false
+
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_java)
+
+    Logger.setLogLevel(LogLevel.Debug)
+
+    layout = findViewById(R.id.layout)
+
+    loadBanner()
+}
+
+/**
+ * 1) load()
+ */
+private fun loadBanner() {
+    isAdLoaded = false
+    cleanupBanner()
+
+    val adInfo: CaulyAdInfo = CaulyAdInfoBuilder(APP_CODE)
+            .bannerHeight(CaulyAdInfoBuilder.FIXED)
+            .effect("None")
+            .build()
+
+    bannerView = CaulyAdBannerView(this).apply {
+        setAdInfo(adInfo)
+        setAdViewListener(this@BannerPreloadGuideActivity)
+    }
+
+    // load()의 parent로 루트 layout을 넘김
+    bannerView?.load(application, layout)
+
+    Log.d(TAG, "banner load() called")
+}
+
+/**
+ * 2) show()
+ */
+fun showBanner() {
+    val view = bannerView
+    if (view == null || !isAdLoaded) {
+        Log.d(TAG, "show skipped: not loaded yet")
+        return
+    }
+    view.show()
+    Log.d(TAG, "banner show() called")
+}
+
+override fun onDestroy() {
+    super.onDestroy()
+    cleanupBanner()
+}
+
+private fun cleanupBanner() {
+    val view = bannerView ?: return
+    try {
+        layout.removeView(view)
+    } catch (_: Throwable) {
+    }
+    try {
+        view.destroy()
+    } catch (_: Throwable) {
+    }
+    bannerView = null
+    isAdLoaded = false
+}
+
+// CaulyAdBannerViewListener
+// 광고 동작에 대해 별도 처리가 필요 없는 경우,
+// Activity의 "implements CaulyAdBannerViewListener" 부분 제거하고 생략 가능.
+override fun onReceiveAd(adView: CaulyAdBannerView, isChargeableAd: Boolean) {
+    Log.d(TAG, "banner AD received.")
+    isAdLoaded = true
+}
+
+override fun onFailedToReceiveAd(adView: CaulyAdBannerView, errorCode: Int, errorMsg: String) {
+    Log.d(TAG, "failed to receive banner AD. code=$errorCode, msg=$errorMsg")
+    isAdLoaded = false
+}
+
+override fun onShowLandingScreen(adView: CaulyAdBannerView) {
+    Log.d(TAG, "banner AD landing screen opened.")
+}
+
+override fun onCloseLandingScreen(adView: CaulyAdBannerView) {
+    Log.d(TAG, "banner AD landing screen closed.")
+}
+
+override fun onClickAd(adView: CaulyAdBannerView) {
+    Log.d(TAG, "banner AD clicked.")
+}
+
+override fun onTimeout(adView: CaulyAdBannerView, msg: String) {
+    Log.d(TAG, "banner AD timeout. msg=$msg")
+    isAdLoaded = false
+}
+```
+{% endtab %}
 {% endtabs %}
 
 {% hint style="warning" %}
