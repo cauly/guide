@@ -88,7 +88,7 @@ public void onClickInterstitialAd(CaulyInterstitialAd ad) {
 }
 
 @Override
-public void onTimeout(CaulyCloseAd ad, String errorMsg) {
+public void onTimeout(CaulyInterstitialAd ad, String errorMsg) {
     // 전면 광고가 만료된 경우 호출됨.
     Log.d("CaulyExample", "interstitial AD onTimeout.");
 }
