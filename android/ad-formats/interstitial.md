@@ -87,9 +87,9 @@ public void onClickInterstitialAd(CaulyInterstitialAd ad) {
     Log.d("CaulyExample", "interstitial AD onClickInterstitialAd.");
 }
 
-//광고 로드 요청 이후 show() 호출할 때 로드가 만료 됐을때 호출된다.
 @Override
 public void onTimeout(CaulyCloseAd ad, String errorMsg) {
+    // 전면 광고가 만료된 경우 호출됨.
     Log.d("CaulyExample", "interstitial AD onTimeout.");
 }
 ```
@@ -299,7 +299,7 @@ override fun onClickInterstitialAd(ad: CaulyInterstitialAd) {
 }
 
 override fun onTimeout(ad: CaulyInterstitialAd, errorMsg: String) {
-    // 전면 광고 수신 후 광고가 만료된 경우 호출됨.
+    // 전면 광고가 만료된 경우 호출됨.
     Log.d("CaulyExample", "interstitial AD onTimeout.")
 }
 ```
