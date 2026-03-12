@@ -4,6 +4,10 @@ description: Cauly Android Library ChangeLog
 
 # 6. ChangeLog
 
+## Version 3.5.43 (2026.03.12)
+
+* 내부 광고 개선
+
 ## Version 3.5.42 (2026.01.26)
 
 * 화면 off시 광고 요청 옵션 추가
