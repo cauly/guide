@@ -254,7 +254,7 @@ override fun onTimeout(adView: CaulyAdBannerView, msg: String) {
 {% endtabs %}
 
 {% hint style="warning" %}
-* Lifecycle에 따라 CaulyAdBannerView의 destroy API를 호출하지 않을 경우, 광고 수신에 불이익을 받을 수 있습니다.
+* Lifecycle에 따라 `CaulyAdBannerView`의 destroy API를 호출하지 않을 경우, 광고 수신에 불이익을 받을 수 있습니다.
 
 ```java
 // Lifecycle 처리 샘플코드
@@ -273,14 +273,14 @@ override fun onTimeout(adView: CaulyAdBannerView, msg: String) {
 {% endhint %}
 
 {% hint style="warning" %}
-**`CaulyAdBannerView`에 다음 두 메서드를 지원합니다.**&#x20;
+**`CaulyAdBannerView`에 다음 두 API를 지원합니다.**
 
-* `pause()` : 광고 노출을 일시정지&#x20;
-* `resume()` : 일시정지된 광고 노출을 재개&#x20;
+* `pause()` : 광고 노출을 일시정지
+* `resume()` : 일시정지된 광고 노출을 재개
 
 &#x20;
 
-두 메서드는 **기존** `CaulyAdBannerView` **인스턴스를 새로 생성하지 않고 그대로 유지한 상태에서 일시정지/재개만 수행**합니다.
+두  API는 **기존** `CaulyAdBannerView` **인스턴스를 새로 생성하지 않고 그대로 유지한 상태에서 일시정지/재개만 수행**합니다.
 
 별도의 `load(...)` 재호출이 필요 없으며, Activity의 `onPause` / `onResume` 시점에 아래와 같이 호출해 주시면 됩니다.
 
