@@ -272,11 +272,11 @@ override fun onTimeout(adView: CaulyAdBannerView, msg: String) {
 * 미디에이션 사용 시 카울리 배너 광고(CaulyAdBannerView)를 호출/교체할 때는, 광고를 삽입한 ViewGroup에서 기존 배너 View를 removeView() 한 뒤 destroy() 호출 후 null 처리해주시기 바랍니다. 또한 배너 광고 수신 실패(또는 timeout) 시에도, 이미 광고 View가 삽입되어 있다면 해당 View를 removeView() 해주세요.
 {% endhint %}
 
-{% hint style="info" %}
-**`CaulyAdBannerView`에 다음 두 메서드를 지원합니다.**
+{% hint style="warning" %}
+**`CaulyAdBannerView`에 다음 두 메서드를 지원합니다.**&#x20;
 
-* `pause()` : 광고 노출을 일시정지
-* `resume()` : 일시정지된 광고 노출을 재개
+* `pause()` : 광고 노출을 일시정지&#x20;
+* `resume()` : 일시정지된 광고 노출을 재개&#x20;
 
 &#x20;
 
