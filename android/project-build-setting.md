@@ -51,7 +51,7 @@ allprojects {
 }
 ```
 
-## 최신 SDK Version : 3.5.44
+## 최신 SDK Version : 3.5.45
 
 ## dependencies 설정
 
