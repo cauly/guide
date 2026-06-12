@@ -1,4 +1,8 @@
-# Copy of preload 배너
+---
+hidden: true
+---
+
+# preload 배너(resume, pause 가이드인데 ISSUE-8899 되돌림에 따라 필요없어짐)
 
 {% hint style="info" %}
 Cauly 배너 광고는 Programmatic 방식과 XML 방식 2가지 형태의 구현과 사용이 가능합니다.

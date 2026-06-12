@@ -8,7 +8,7 @@
 * [3. 광고 구현](android/ad-formats/README.md)
   * [배너](android/ad-formats/banner.md)
   * [preload 배너](android/ad-formats/preload.md)
-  * [Copy of preload 배너](android/ad-formats/copy-of-preload.md)
+  * [preload 배너(resume, pause 가이드인데 ISSUE-8899 되돌림에 따라 필요없어짐)](android/ad-formats/preload-resume-pause-issue-8899.md)
   * [전면](android/ad-formats/interstitial.md)
   * [네이티브](android/ad-formats/native.md)
 * [4. Sample Project](android/sample-project.md)
