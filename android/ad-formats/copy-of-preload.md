@@ -1,4 +1,4 @@
-# preload 배너
+# Copy of preload 배너
 
 {% hint style="info" %}
 Cauly 배너 광고는 Programmatic 방식과 XML 방식 2가지 형태의 구현과 사용이 가능합니다.
@@ -270,6 +270,42 @@ override fun onTimeout(adView: CaulyAdBannerView, msg: String) {
 
 
 * 미디에이션 사용 시 카울리 배너 광고(CaulyAdBannerView)를 호출/교체할 때는, 광고를 삽입한 ViewGroup에서 기존 배너 View를 removeView() 한 뒤 destroy() 호출 후 null 처리해주시기 바랍니다. 또한 배너 광고 수신 실패(또는 timeout) 시에도, 이미 광고 View가 삽입되어 있다면 해당 View를 removeView() 해주세요.
+{% endhint %}
+
+{% hint style="warning" %}
+**`CaulyAdBannerView`에 다음 두 API를 지원합니다.**
+
+* `pause()` : 광고 노출을 일시정지
+* `resume()` : 일시정지된 광고 노출을 재개
+
+&#x20;
+
+두  API는 **기존** `CaulyAdBannerView` **인스턴스를 새로 생성하지 않고 그대로 유지한 상태에서 일시정지/재개만 수행**합니다.
+
+별도의 `load(...)` 재호출이 필요 없으며, Activity의 `onPause` / `onResume` 시점에 아래와 같이 호출해 주시면 됩니다.
+
+```java
+@Override
+protected void onPause() {
+    super.onPause();
+    if (bannerView != null) {
+        bannerView.pause();
+    }
+}
+@Override
+protected void onResume() {
+    super.onResume();
+    if (bannerView != null) {
+        bannerView.resume();
+    }
+}
+```
+
+**주의사항)**
+
+`pause()`**와** `resume()`**은 반드시 짝을 맞춰 호출**해주셔야 합니다.
+
+`pause()`만 호출되고 `resume()`이 누락되면 화면에 복귀해도 광고가 재개되지 않을 수 있습니다.
 {% endhint %}
 
 ## CaulyAdInfo 설정방법
