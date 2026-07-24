@@ -4,9 +4,13 @@ description: Cauly Android Library ChangeLog
 
 # 6. ChangeLog
 
+## Version 3.5.46 (2026.07.24)
+
+* 내부 광고 개선&#x20;
+
 ## Version 3.5.45 (2026.06.11)
 
-* preload 배너 개선
+* preload 배너 개선&#x20;
 
 ## Version 3.5.44 (2026.05.21)
 
