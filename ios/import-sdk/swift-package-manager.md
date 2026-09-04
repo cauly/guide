@@ -9,7 +9,7 @@
     ```
     https://github.com/cauly/CaulySPM.git
     ```
-3. 사용할 Cauly Swift 패키지의 버전을 선택합니다. **(최신 SDK 버전: 3.1.22)**
+3. 사용할 Cauly Swift 패키지의 버전을 선택합니다. **(최신 SDK 버전: 3.1.23)**
 {% endhint %}
 
 ### Import 및 사용 방법

@@ -27,7 +27,7 @@ Cauly iOS SDK 업데이트에 따라 아래 내용이 변경될 수 있습니다
 source 'https://github.com/CocoaPods/Specs.git'
 source 'https://github.com/cauly/CaulySDK_iOS.git'
 
-pod 'CaulySDK', '3.1.22'
+pod 'CaulySDK', '3.1.23'
 
 # Xcode15.0 이상 버전에서 TOOL CHAIN 관련 빌드 에러가 발생하는 경우, 아래 코드를 추가합니다.
 post_install do |installer|

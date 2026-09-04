@@ -31,4 +31,9 @@ CocoaPods 정책 변경에 따라,\
 CocoaPods 지원 중단 배경 및 상세 내용은 [**주요공지 및 안내사항**](../notices.md#cocoapods)을 참고해 주세요.
 {% endhint %}
 
-## 최신 SDK Version : 3.1.22
+{% hint style="danger" %}
+Static Library(.a) 연동 방식은 **3.1.23 버전부터 지원이 중단**되었습니다.\
+수동 다운로드로 연동하는 경우 **XCFramework 연동 방식**을 사용해 주세요.
+{% endhint %}
+
+## 최신 SDK Version : 3.1.23

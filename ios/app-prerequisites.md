@@ -13,11 +13,11 @@
 ## 요구사항
 
 * 최소 지원 사양
-  * iOS 12.0 이상
-  * Xcode 16.0 이상
+  * iOS 13.0 이상
+  * Xcode 26.0 이상
 
 {% hint style="info" %}
-2025년 4월 24일부터 앱 스토어에 앱을 제출하려면 **Xcode 16.0 이상 버전 사용이 필요합니다.**
+2026년 4월 28일부터 앱 스토어에 앱을 제출하려면 **Xcode 26.0 이상 버전 사용이 필요합니다.**
 
-[**https://developer.apple.com/news/upcoming-requirements/?id=02212025a**](https://developer.apple.com/news/upcoming-requirements/?id=02212025a)
+[**https://developer.apple.com/kr/news/?id=ueeok6yw**](https://developer.apple.com/kr/news/?id=ueeok6yw)
 {% endhint %}

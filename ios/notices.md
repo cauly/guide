@@ -72,7 +72,7 @@ CocoaPods 측에서 **Specs Repository(trunk)를 read-only 상태로 전환할 �
 이에 따라 **2026년 12월 2일 이후에는 새로운 Podspec 등록 및 수정이 더 이상 허용되지 않습니다.**
 
 > CocoaPods 공식 공지에서는\
-> &#xNAN;_“CocoaPods trunk is moving to be read-only”_ 라고 명시하고 있으며,\
+> _“CocoaPods trunk is moving to be read-only”_ 라고 명시하고 있으며,\
 > 자세한 내용은 아래 블로그를 통해 확인하실 수 있습니다.\
 > [https://blog.cocoapods.org/CocoaPods-Specs-Repo/](https://blog.cocoapods.org/CocoaPods-Specs-Repo/)
 
@@ -94,3 +94,12 @@ CocoaPods 환경에서는 **신규 기능 추가 및 장기적인 업데이트�
 * **Swift Package Manager (SPM)** – 권장
 * **수동 다운로드 방식**
 * CocoaPods – 지원 종료 예정 (2026년 내)
+
+
+
+***
+
+### **Static Library(.a) 연동 방식 지원 중단**
+
+* Cauly iOS 3.1.23 버전부터 Static Library(.a) 연동 방식 지원이 중단되며, **XCFramework 연동 방식으로 일원화**됩니다.&#x20;
+* 기존 Static Library로 연동 중인 프로젝트는 XCFramework 방식으로 전환해 주시기 바랍니다.
