@@ -29,14 +29,23 @@ source 'https://github.com/cauly/CaulySDK_iOS.git'
 
 pod 'CaulySDK', '3.1.23'
 
-# Xcode15.0 이상 버전에서 TOOL CHAIN 관련 빌드 에러가 발생하는 경우, 아래 코드를 추가합니다.
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     target.build_configurations.each do |config|
+
+      # [해결 1] Xcode 15.0 이상에서 "DT_TOOLCHAIN_DIR" 관련 빌드 에러가 발생하는 경우 추가
+      # 해당 에러가 없다면 이 블록은 생략 가능합니다.
       xcconfig_path = config.base_configuration_reference.real_path
       xcconfig = File.read(xcconfig_path)
       xcconfig_mod = xcconfig.gsub(/DT_TOOLCHAIN_DIR/, "TOOLCHAIN_DIR")
       File.open(xcconfig_path, "w") { |file| file << xcconfig_mod }
+
+      # [해결 2] Xcode 27 이상에서 Pod의 배포 타겟 15.0 미만 빌드 에러가 발생하는 경우 추가
+      # 해당 에러가 없다면 이 블록은 생략 가능합니다.
+      if config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f < 15.0
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.0'
+      end
+
     end
   end
 end
