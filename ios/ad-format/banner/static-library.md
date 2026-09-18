@@ -1,3 +1,7 @@
+---
+hidden: true
+---
+
 # Static Library
 
 {% hint style="info" %}

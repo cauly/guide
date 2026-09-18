@@ -36,4 +36,4 @@ Static Library(.a) 연동 방식은 **3.1.23 버전부터 지원이 중단**되�
 수동 다운로드로 연동하는 경우 **XCFramework 연동 방식**을 사용해 주세요.
 {% endhint %}
 
-## 최신 SDK Version : 3.1.23
+## 최신 SDK Version : 3.1.24

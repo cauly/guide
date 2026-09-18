@@ -27,7 +27,7 @@ Cauly iOS SDK 업데이트에 따라 아래 내용이 변경될 수 있습니다
 source 'https://github.com/CocoaPods/Specs.git'
 source 'https://github.com/cauly/CaulySDK_iOS.git'
 
-pod 'CaulySDK', '3.1.23'
+pod 'CaulySDK', '3.1.24'
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|
