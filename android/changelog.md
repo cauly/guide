@@ -4,6 +4,12 @@ description: Cauly Android Library ChangeLog
 
 # 6. ChangeLog
 
+## Version 3.5.47 (2026.10.21)
+
+* 보상형 광고 SSV API 추가 (userId, customData 추가)
+* AD ID 수집 불가 에러 코드 추가
+* 배너 노출통지(onAdImpression) 콜백 추가
+
 ## Version 3.5.46 (2026.07.24)
 
 * 내부 광고 개선&#x20;

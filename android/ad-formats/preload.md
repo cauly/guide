@@ -128,6 +128,12 @@ public void onTimeout(CaulyAdBannerView adView, String msg) {
     Log.d(TAG, "banner AD timeout. msg=" + msg);
     isAdLoaded = false;
 }
+
+@Override
+public void onAdImpression() {
+    Log.d(TAG, "banner AD impressed.");
+}
+
 ```
 
 '광고 삽입할 부분'.xml
@@ -248,6 +254,10 @@ override fun onClickAd(adView: CaulyAdBannerView) {
 override fun onTimeout(adView: CaulyAdBannerView, msg: String) {
     Log.d(TAG, "banner AD timeout. msg=$msg")
     isAdLoaded = false
+}
+
+override fun onAdImpression() {
+    Log.d(TAG, "banner AD impressed.");
 }
 ```
 {% endtab %}

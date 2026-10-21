@@ -51,7 +51,7 @@ allprojects {
 }
 ```
 
-## 최신 SDK Version : 3.5.46
+## 최신 SDK Version : 3.5.47
 
 ## dependencies 설정
 
@@ -67,7 +67,7 @@ allprojects {
 dependencies {
     implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
     implementation 'com.google.android.gms:play-services-appset:16.0.0'
-    implementation 'com.fsn.cauly:cauly-sdk:3.5.46' 
+    implementation 'com.fsn.cauly:cauly-sdk:3.5.47' 
 }
 ```
 

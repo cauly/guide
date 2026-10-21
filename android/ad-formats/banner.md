@@ -72,6 +72,11 @@ public void onClickAd(CaulyAdView adView) {
     Log.d("CaulyExample", "banner AD clicked.");
 }
 
+@Override
+public void onAdImpression() {
+    Log.d("CaulyExample", "banner AD impressed.");
+}
+
 // Activity 버튼 처리
 // - Java 배너 광고 갱신 버튼
 public void onReloadJavaAdView(View button) {
@@ -152,6 +157,10 @@ override fun onCloseLandingScreen(adView: CaulyAdView) {
 override fun onClickAd(adView: CaulyAdView) {
     // 광고 배너를 클릭할 경우 호출됨.
     Log.d("CaulyExample", "banner AD clicked.")
+}
+
+override fun onAdImpression() {
+    Log.d("CaulyExample", "banner AD impressed.");
 }
 
 // Activity 버튼 처리
