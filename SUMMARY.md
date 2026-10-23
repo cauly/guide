@@ -11,6 +11,7 @@
   * [preload 배너(resume, pause 가이드인데 ISSUE-8899 되돌림에 따라 필요없어짐)](android/ad-formats/preload-resume-pause-issue-8899.md)
   * [전면](android/ad-formats/interstitial.md)
   * [네이티브](android/ad-formats/native.md)
+  * [네이티브V2](android/ad-formats/v2.md)
 * [4. Sample Project](android/sample-project.md)
 * [5. OPTION](android/option/README.md)
   * [네트워크 보안 구성](android/option/network-security-configuration.md)
