@@ -18,6 +18,9 @@ func willShowLanding(_ adView: CaulyAdView!)
 
 // 랜딩 화면이 닫혔을 때
 func didCloseLanding(_ adView: CaulyAdView!)
+
+// 광고 노출이 집계되었을 때 (광고당 1회)
+func didAdImpression(_ adView: CaulyAdView!)
 ```
 {% endtab %}
 
@@ -34,6 +37,9 @@ func didCloseLanding(_ adView: CaulyAdView!)
 
 // 랜딩 화면이 닫혔을 때
 - (void)didCloseLandingView:(CaulyAdView *)adView;
+
+// 광고 노출이 집계되었을 때 (광고당 1회)
+- (void)didAdImpression:(CaulyAdView *)adView;
 ```
 {% endtab %}
 {% endtabs %}

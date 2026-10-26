@@ -95,6 +95,11 @@ class ViewController: UIViewController, CaulyAdViewDelegate {
     func didCloseLanding(_ adView: CaulyAdView!) {
          print("didCloseLandingView")
     }
+    
+    // 광고 노출이 집계되었을 때
+    func didAdImpression(_ adView: CaulyAdView!) {
+         print("didAdImpression")
+    }
 }
 ```
 {% endtab %}
@@ -181,6 +186,11 @@ class ViewController: UIViewController, CaulyAdViewDelegate {
 // 랜딩 화면이 닫혔을 때
 - (void)didCloseLandingView:(CaulyAdView *)adView {
 	NSLog(@"didCloseLandingView");
+}
+
+// 광고 노출이 집계되었을 때
+- (void)didAdImpression:(CaulyAdView *)adView {
+	NSLog(@"didAdImpression");
 }
 ```
 {% endtab %}
