@@ -1,7 +1,3 @@
----
-hidden: true
----
-
 # 네이티브
 
 {% hint style="info" %}

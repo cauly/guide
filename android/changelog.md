@@ -4,6 +4,11 @@ description: Cauly Android Library ChangeLog
 
 # 6. ChangeLog
 
+## Version 3.5.48 (2026.11.02)
+
+* 개선된 네이티브 광고 인터페이스 추가 (CaulyNativeAdLoader, 템플릿 SMALL / MEDIUM)
+* 기존 네이티브 인터페이스 Deprecated
+
 ## Version 3.5.47 (2026.10.21)
 
 * 보상형 광고 SSV API 추가 (userId, customData 추가)
