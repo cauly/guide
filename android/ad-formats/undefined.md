@@ -2,14 +2,15 @@
 hidden: true
 ---
 
-# 네이티브V2
+# 네이티브
 
 {% hint style="info" %}
-SDK 3.5.48부터 새 네이티브 광고 인터페이스를 제공합니다.\
+SDK 3.5.48부터 개선된 네이티브 광고 인터페이스를 제공합니다. 화면에 맞게 자유롭게 구성할 수 있습니다.\
+\
 광고 요청은 `CaulyNativeAdLoader`로 하고, 화면 구성은 아래 두 가지 중 하나를 선택합니다.
 
-* **템플릿 방식** : SDK가 제공하는 완성형 레이아웃(`CaulyNativeTemplateView`, SMALL / MEDIUM)에 광고를 연결합니다. 가장 간단합니다.
-* **직접 레이아웃 방식** : 매체가 만든 레이아웃을 `CaulyNativeAdView`로 감싸고 각 요소(제목, 본문, CTA, 아이콘, 메인 이미지)를 등록합니다.
+* **템플릿 방식** : SDK가 제공하는 완성형 레이아웃(`CaulyNativeTemplateView`, SMALL / MEDIUM)에 광고를 연결합니다.
+* **직접 레이아웃 방식** : 앱에서 만든 레이아웃을 `CaulyNativeAdView`로 감싸고 각 요소(제목, 본문, CTA, 아이콘, 메인 이미지)를 등록합니다.
 
 두 방식 모두 노출·클릭 보고, "광고" 배지, AdChoices(광고 정보) 아이콘은 SDK가 처리합니다.
 {% endhint %}
@@ -51,6 +52,7 @@ SDK 3.5.48부터 새 네이티브 광고 인터페이스를 제공합니다.\
     android:id="@+id/native_template"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:visibility="gone"
     app:cauly_native_template_type="medium"
     app:cauly_native_template_media_mode="fixed_ratio" />
 ```
@@ -97,11 +99,12 @@ public class NativeTemplateActivity extends AppCompatActivity {
                     nativeAd.destroy();     // 이전 광고 해제
                 nativeAd = ad;
                 templateView.setNativeAd(ad);
+                templateView.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onAdFailedToLoad(int errorCode, String errorMessage) {
-                // 광고 수신 실패
+                // 광고 수신 실패 (템플릿은 숨긴 상태 유지)
             }
 
             @Override
@@ -134,6 +137,7 @@ public class NativeTemplateActivity extends AppCompatActivity {
 
 ```java
 CaulyNativeTemplateView templateView = new CaulyNativeTemplateView(this, CaulyNativeTemplateType.SMALL);
+templateView.setVisibility(View.GONE); // 광고를 받으면 onAdLoaded()에서 VISIBLE로 변경
 container.addView(templateView, new ViewGroup.LayoutParams(
         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 ```
@@ -177,10 +181,11 @@ class NativeTemplateActivity : AppCompatActivity() {
                     nativeAd?.destroy()     // 이전 광고 해제
                     nativeAd = ad
                     templateView.setNativeAd(ad)
+                    templateView.visibility = View.VISIBLE
                 }
 
                 override fun onAdFailedToLoad(errorCode: Int, errorMessage: String?) {
-                    // 광고 수신 실패
+                    // 광고 수신 실패 (템플릿은 숨긴 상태 유지)
                 }
 
                 override fun onAdImpression() {
@@ -208,6 +213,7 @@ class NativeTemplateActivity : AppCompatActivity() {
 
 ```kotlin
 val templateView = CaulyNativeTemplateView(this, CaulyNativeTemplateType.SMALL)
+templateView.visibility = View.GONE // 광고를 받으면 onAdLoaded()에서 VISIBLE로 변경
 container.addView(templateView, ViewGroup.LayoutParams(
     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
 ```
@@ -221,7 +227,7 @@ container.addView(templateView, ViewGroup.LayoutParams(
 | `app:cauly_native_template_type`       | `small` (기본) / `medium`          | 템플릿 종류. 코드에서는 생성자의 `CaulyNativeTemplateType`으로 지정합니다.                                          |
 | `app:cauly_native_template_media_mode` | `fixed_ratio` (기본) / `fit_image` | MEDIUM의 메인 이미지 영역 높이 방식. 코드에서는 `setMediaMode(CaulyNativeTemplateMediaMode)`. SMALL에는 영향이 없습니다. |
 
-* `FIXED_RATIO` : 이미지 영역을 가로 2:1로 고정합니다. 광고마다 높이가 일정합니다.
+* `FIXED_RATIO` : 이미지 영역을 가로 2:1로 고정합니다. 광고마다 높이가 일정합니다. 이미지가 2:1보다 세로로 길면 좌우에, 가로로 길면 좌우를 일부 잘라낸 뒤 위아래에 투명 여백이 생길 수 있습니다.
 * `FIT_IMAGE` : 받은 이미지 비율로 영역 높이를 정합니다. 광고마다 높이가 달라지며, 1.5:1보다 세로로 길어지지 않습니다(그보다 긴 이미지는 좌우 여백으로 맞춤).
 
 ### CaulyNativeTemplateStyle 설정방법
@@ -247,6 +253,7 @@ container.addView(templateView, ViewGroup.LayoutParams(
 * 뷰 ID와 배치는 자유롭게 구성할 수 있습니다.
 * 각 요소를 `setXxxView()`로 등록한 뒤 **마지막에** `setNativeAd(ad)`를 호출합니다. SDK가 등록된 뷰에 값을 채웁니다.
 * 클릭은 등록한 요소 뷰(제목, 본문, CTA, 아이콘, 메인 이미지)만 인정됩니다. 배경·여백은 클릭되지 않습니다.
+* 등록한 요소 뷰에는 `setOnClickListener()`를 설정하지 마세요. SDK가 클릭 처리를 위해 리스너를 설정하므로, 매체가 리스너를 다시 설정하면 랜딩과 클릭 집계가 동작하지 않습니다. 클릭 시점은 `onAdClicked()`로 확인할 수 있습니다.
 {% endhint %}
 
 native\_ad\_layout.xml
@@ -339,7 +346,7 @@ public class NativeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_native);
-        adContainer = findViewById(R.id.ad_container);
+        adContainer = findViewById(R.id.ad_container); // 광고를 붙일 레이아웃 (예: FrameLayout)
 
         CaulyAdInfo adInfo = new CaulyNativeAdInfoBuilder("CAULY")   // 발급받은 APP_CODE
                 .mediaAspectRatio(CaulyMediaAspectRatio.LANDSCAPE_2_1) // 기본값 2:1
@@ -390,9 +397,13 @@ public class NativeActivity extends AppCompatActivity {
         nativeAdView.setMediaView(nativeAdView.findViewById(R.id.ad_media));
         nativeAdView.setAdBadgeView(nativeAdView.findViewById(R.id.ad_badge)); // 선택
 
-        // 본문은 없을 수 있음
+        // 본문·아이콘·메인 이미지는 없을 수 있음
         if (ad.getBody().isEmpty())
             nativeAdView.findViewById(R.id.ad_body).setVisibility(View.GONE);
+        if (ad.getIcon() == null)
+            nativeAdView.findViewById(R.id.ad_icon).setVisibility(View.GONE);
+        if (ad.getMediaContent() == null)
+            nativeAdView.findViewById(R.id.ad_media).setVisibility(View.GONE);
 
         // 2. 마지막에 광고 연결
         nativeAdView.setNativeAd(ad);
@@ -434,7 +445,7 @@ class NativeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_native)
-        adContainer = findViewById(R.id.ad_container)
+        adContainer = findViewById(R.id.ad_container) // 광고를 붙일 레이아웃 (예: FrameLayout)
 
         val adInfo = CaulyNativeAdInfoBuilder("CAULY")              // 발급받은 APP_CODE
             .mediaAspectRatio(CaulyMediaAspectRatio.LANDSCAPE_2_1)  // 기본값 2:1
@@ -482,9 +493,13 @@ class NativeActivity : AppCompatActivity() {
         adView.setMediaView(adView.findViewById(R.id.ad_media))
         adView.setAdBadgeView(adView.findViewById(R.id.ad_badge)) // 선택
 
-        // 본문은 없을 수 있음
+        // 본문·아이콘·메인 이미지는 없을 수 있음
         if (ad.body.isEmpty())
             adView.findViewById<View>(R.id.ad_body).visibility = View.GONE
+        if (ad.icon == null)
+            adView.findViewById<View>(R.id.ad_icon).visibility = View.GONE
+        if (ad.mediaContent == null)
+            adView.findViewById<View>(R.id.ad_media).visibility = View.GONE
 
         // 2. 마지막에 광고 연결
         adView.setNativeAd(ad)
@@ -548,6 +563,7 @@ class NativeActivity : AppCompatActivity() {
 - `CaulyNativeAdView` / `CaulyNativeTemplateView`도 화면 종료 시 `destroy()`로 등록된 뷰와 리스너를 해제해 주세요.
 - 요청 중에 화면을 종료하는 경우 `CaulyNativeAdLoader.cancel()`을 호출해 주세요. 이후 콜백은 호출되지 않습니다.
 - `CaulyNativeAdLoader.request()`는 메인 스레드에서 호출해야 하며, 1회 요청에 광고 1개를 받습니다. 요청이 진행 중일 때(`isLoading()`이 true) 다시 호출하면 무시됩니다.
+- 광고는 자동으로 갱신되지 않습니다. 새 광고로 교체하려면 `request()`를 다시 호출하고, `onAdLoaded()`에서 받은 새 광고를 `setNativeAd()`로 연결하고, 이전 광고는 `destroy()`로 해제해 주세요. 요청이 끝난 `CaulyNativeAdLoader`는 그대로 다시 `request()`를 호출해 사용할 수 있습니다.
 - 모든 리스너 콜백은 메인 스레드에서 호출됩니다.
 {% endhint %}
 
@@ -566,18 +582,18 @@ protected void onDestroy() {
 
 ## CaulyNativeAdInfoBuilder 설정방법
 
-| AdInfo                                  | 설명                                                                                                               |
-| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| AppCode                                 | 발급받은 APP\_CODE (생성자 파라미터)                                                                                        |
-| mediaAspectRatio(CaulyMediaAspectRatio) | 메인 이미지 비율. `LANDSCAPE_2_1`(기본, 1200x627 이미지) / `SQUARE_1_1`(500x500 이미지)                                         |
-| timeoutSec(int)                         | 광고 요청 타임아웃(초)                                                                                                    |
-| userTargetBrowser(String)               | 랜딩에 사용할 브라우저 패키지명                                                                                                |
-| region(String) / gcoder(double, double) | 지역 정보. [Cauly 지역정보추가](https://cauly.gitbook.io/cauly/sdk-android/cauly) 참고                                       |
-| tagForChildDirectedTreatment(boolean)   | 아동 대상 서비스 취급용 태그 설정. [아동 대상 서비스 취급용 '태그' 설정](https://cauly.gitbook.io/cauly/android/option/child-tag-setting) 참고 |
-| gdprConsentAvailable(boolean)           | GDPR 동의 여부                                                                                                       |
+| AdInfo                                  | 설명                                                                                                                                                                 |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| AppCode                                 | 발급받은 APP\_CODE (생성자 파라미터)                                                                                                                                          |
+| mediaAspectRatio(CaulyMediaAspectRatio) | 메인 이미지 비율. `LANDSCAPE_2_1`(기본, 가로형) / `SQUARE_1_1`(정사각형). 실제 이미지 크기와 비율은 소재마다 조금씩 다를 수 있으므로, 이미지 영역 높이를 직접 정할 때는 `ad.getMediaContent().getAspectRatio()`를 사용해 주세요. |
+| timeoutSec(int)                         | 광고 요청 타임아웃(초)                                                                                                                                                      |
+| userTargetBrowser(String)               | 랜딩에 사용할 브라우저 패키지명                                                                                                                                                  |
+| region(String) / gcoder(double, double) | 지역 정보. [Cauly 지역정보추가](https://cauly.gitbook.io/cauly/sdk-android/cauly) 참고                                                                                         |
+| tagForChildDirectedTreatment(boolean)   | 아동 대상 서비스 취급용 태그 설정. [아동 대상 서비스 취급용 '태그' 설정](https://cauly.gitbook.io/cauly/android/option/child-tag-setting) 참고                                                   |
+| gdprConsentAvailable(boolean)           | GDPR 동의 여부                                                                                                                                                         |
 
 {% hint style="info" %}
-기존 네이티브의 `layoutID`, `iconImageID`, `adRatio` 등 레이아웃 관련 옵션은 새 Builder에 없습니다. 화면 연결은 `CaulyNativeAdView` 또는 `CaulyNativeTemplateView`에서 합니다.
+기존 네이티브의 `layoutID`, `iconImageID`, `adRatio` 등 레이아웃 관련 옵션은 새 방식에서 사용하지 않습니다. `layoutID`처럼 공통 Builder에 있는 옵션은 호출할 수 있지만 설정해도 무시됩니다. 화면 연결은 `CaulyNativeAdView` 또는 `CaulyNativeTemplateView`에서 합니다.
 {% endhint %}
 
 ## 클래스 레퍼런스
@@ -612,7 +628,7 @@ protected void onDestroy() {
 | `getBody()`         | 본문 (없으면 "")                                                                 |
 | `getIcon()`         | 아이콘 이미지(`CaulyNativeAd.Image`: `getDrawable()`, `getUri()`). 없으면 null       |
 | `getMediaContent()` | 메인 미디어(`CaulyMediaContent`: `getMainImage()`, `getAspectRatio()`). 없으면 null |
-| `isChargeable()`    | 유료 광고 여부. false면 무료 광고                                                      |
+| `isChargeable()`    | 유료 광고 여부. false면 하우스 광고(무료 광고)입니다.                                          |
 | `getExtraInfos()`   | 부가 정보. `CaulyExtraInfoUtil`로 단가/과금 유형 조회                                    |
 | `destroy()`         | 광고 리소스 해제                                                                   |
 
