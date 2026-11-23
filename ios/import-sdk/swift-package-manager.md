@@ -4,7 +4,7 @@
 
 {% hint style="info" %}
 1. Xcode에서 **File(파일) > Add Package Dependencies(패키지 종속 항목 추가)...**&#xB85C; 이동하여 Cauly Swift 패키지를 설치합니다.
-2.  표시되는 메시지에서 다음 Google 모바일 광고 Swift 패키지 GitHub 저장소를 검색합니다.
+2.  표시되는 메시지에서 다음 Cauly Swift 패키지 GitHub 저장소를 검색합니다.
 
     ```
     https://github.com/cauly/CaulySPM.git
